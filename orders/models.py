@@ -2,7 +2,7 @@ from django.db   import models
 
 from core.models import Time_stamp
 
-class Order_status_code:
+class Order_status_code(models.Model):
     order_status_code = models.CharField(max_length=50)
     
     class Meta:
@@ -16,7 +16,7 @@ class Order(Time_stamp):
     class Meta:
         db_table = 'orders'
         
-class Order_item_status_code:
+class Order_item_status_code(models.Model):
     order_item_status_code = models.CharField(max_length=50)
 
     class Meta:

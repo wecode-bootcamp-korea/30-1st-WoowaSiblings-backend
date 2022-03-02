@@ -22,7 +22,7 @@ class Product(Time_stamp):
         
 class Product_time(Time_stamp):
     product = models.ForeignKey('Product', on_delete=models.CASCADE)
-    time    = models.ForeignKey('Option', on_delete=models.CASCADE)
+    time    = models.ForeignKey('Time', on_delete=models.CASCADE)
     
     class Meta:
         db_table = 'product_time'

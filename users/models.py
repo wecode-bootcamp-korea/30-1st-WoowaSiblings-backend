@@ -10,7 +10,7 @@ class Batch(models.Model):
 
 class User(Time_stamp):
     username     = models.CharField(max_length=100, unique=True)
-    password     = models.CharField(max_length=300, blank=True)
+    password     = models.CharField(max_length=300)
     nickname     = models.CharField(max_length=100, blank=True)
     email        = models.CharField(max_length=100, unique=True, null=True)
     phone_number = models.CharField(max_length=100, blank=True)

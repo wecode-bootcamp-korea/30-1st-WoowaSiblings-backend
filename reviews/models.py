@@ -7,7 +7,7 @@ class Review(Time_stamp):
     content     = models.TextField()
     star_rating = models.PositiveIntegerField()
     user        = models.ForeignKey('users.User', on_delete=models.CASCADE)
-    product     =  models.ForeignKey('products.Product', on_delete=models.CASCADE)
+    product     = models.ForeignKey('products.Product', on_delete=models.CASCADE)
     
     class Meta:
         db_table = 'reviews'
