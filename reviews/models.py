@@ -1,8 +1,8 @@
 from django.db import models
 
-from core.models import Time_stamp
+from core.models import TimeStamp
 
-class Review(Time_stamp):
+class Review(TimeStamp):
     title       = models.CharField(max_length=100)
     content     = models.TextField()
     star_rating = models.PositiveIntegerField()
@@ -12,7 +12,7 @@ class Review(Time_stamp):
     class Meta:
         db_table = 'reviews'
         
-class Review_image(Time_stamp):
+class ReviewImage(TimeStamp):
     review_image_url = models.CharField(max_length=400)
     review           = models.ForeignKey('Review', on_delete=models.CASCADE)
     
