@@ -10,7 +10,7 @@ class Category(models.Model):
     
 class Product(TimeStamp):
     name           = models.CharField(max_length=200)
-    price          = models.DecimalField(max_digits=5, decimal_places=2)
+    price          = models.DecimalField(max_digits=10, decimal_places=2)
     stock          = models.PositiveIntegerField()
     on_discount    = models.BooleanField()
     product_option = models.BooleanField()
@@ -31,7 +31,7 @@ class Time(TimeStamp):
     name = models.CharField(max_length=50)
     
     class Meta:
-        db_table = 'Times'
+        db_table = 'times'
     
 class ThumbnailImage(TimeStamp):
     thumbnail_image_url  = models.CharField(max_length=400)
@@ -62,7 +62,7 @@ class ProductsDiscountRate(models.Model):
 class DetailImage(TimeStamp):
     detail_image_name = models.CharField(max_length=100)
     detail_image_url  = models.CharField(max_length=400)
-    product = models.ForeignKey('Product', on_delete=models.CASCADE)        
+    product           = models.ForeignKey('Product', on_delete=models.CASCADE)        
 
     class Meta:
         db_table = 'detail_images'
