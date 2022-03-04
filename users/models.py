@@ -31,6 +31,3 @@ class WecodeUserDetail(TimeStamp):
     
     class Meta:
         db_table = 'wecode_user_details'
-
-
-        

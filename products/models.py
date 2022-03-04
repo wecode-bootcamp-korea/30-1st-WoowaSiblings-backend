@@ -62,7 +62,7 @@ class ProductsDiscountRate(models.Model):
 class DetailImage(TimeStamp):
     detail_image_name = models.CharField(max_length=100)
     detail_image_url  = models.CharField(max_length=400)
-    product = models.ForeignKey('Product', on_delete=models.CASCADE)        
+    product           = models.ForeignKey('Product', on_delete=models.CASCADE)        
 
     class Meta:
         db_table = 'detail_images'
