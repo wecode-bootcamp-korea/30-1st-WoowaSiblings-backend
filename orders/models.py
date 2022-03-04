@@ -30,3 +30,11 @@ class OrderItem(TimeStamp):
     
     class Meta:
         db_table = 'order_items'
+        
+class Cart(TimeStamp):
+    user         = models.ForeignKey('users.User', on_delete=models.CASCADE)
+    product_time = models.ForeignKey('products.Time', on_delete=models.CASCADE)
+    quantity     = models.PositiveIntegerField()    
+
+    class Meta:
+        db_table = 'carts'
