@@ -21,13 +21,13 @@ class SignUpView(View):
             point        = data.get('point', 100000)            
             batch_id     = data.get('batch_id', 1) 
             
-            PASSWORD_RE  = r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$'
-            EMAIL_RE     = r'^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+            PASSWORD_REGEX  = r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$'
+            EMAIL_REGEX     = r'^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
         
-            if email != None and not re.match(EMAIL_RE, email) :
+            if email != None and not re.match(EMAIL_REGEX, email) :
                 return JsonResponse({'message':'INVALID_EMAIL'}, status=400)
             
-            if not re.match(PASSWORD_RE, password):
+            if not re.match(PASSWORD_REGEX, password):
                 return JsonResponse({'message':'INVALID_EMAIL'}, status=400)
             
             if User.objects.filter(username=username).exists():
@@ -70,7 +70,7 @@ class SignInView(View):
             if not bcrypt.checkpw(password.encode('utf-8'), user.password.encode(('utf-8'))):
                 return JsonResponse({'message':'INVALID_USER'}, status=400)
                 
-            token = jwt.encode({'username' : user.username}, SECRET_KEY, ALGORITHM)
+            token = jwt.encode({'user_id' : user.id}, SECRET_KEY, ALGORITHM)
             return JsonResponse({'message':'SUCCESS', 'ACCESS_TOKEN':token}, status = 200)
         
         except KeyError:
