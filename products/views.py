@@ -1,3 +1,48 @@
-from django.shortcuts import render
+from django.http      import JsonResponse
+from django.views     import View
+from django.db.models import Q
 
-# Create your views here.
+from products.models  import Product
+
+
+class ProductListView(View):
+    def get(self, request):
+        try:
+            limit    = int(request.GET.get('limit', 12))
+            offset   = int(request.GET.get('offset', 0))
+            category = request.GET.get('category', None)
+            
+            q = Q()
+            
+            if category:
+                q &= Q(category__name=category)
+
+            products = Product.objects.filter(q)[offset:offset+limit]
+            results  = []
+            
+            for product in products:
+                if product.on_discount:
+                    discount_rate = int(product.productsdiscountrate_set.\
+                                        get(product_id=product.id).\
+                                        discount_rate.discount_rate)/100
+                else:
+                    discount_rate = 0
+                
+                results.append(
+                    {
+                        'id'              : product.id,
+                        'name'            : product.name,
+                        'price'           : product.price,
+                        'discount_rate'   : discount_rate,
+                        'discount_price'  : int(product.price) * (1-discount_rate), 
+                        'on_discount'     : product.on_discount,
+                        'product_option'  : product.product_option,
+                        'thumbnail_image' : product.thumbnailimage.thumbnail_image_url,
+                        'category'        : product.category.name,
+                    }
+                )
+                
+            return JsonResponse({'message' : 'SUCCESS', 'results' : results}, status=200)
+
+        except Product.DoesNotExist:
+            return JsonResponse({'message' : 'PRODUCT_NOT_EXIST'}, status=400)
