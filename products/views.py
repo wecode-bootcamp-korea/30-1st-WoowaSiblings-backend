@@ -1,3 +1,4 @@
+from unicodedata import decimal
 from django.http      import JsonResponse
 from django.views     import View
 from django.db.models import Q
@@ -22,9 +23,9 @@ class ProductListView(View):
             
             for product in products:
                 if product.on_discount:
-                    discount_rate = int(product.productsdiscountrate_set.\
-                                        get(product_id=product.id).\
-                                        discount_rate.discount_rate)/100
+                    discount_rate = float(product.productsdiscountrate_set.\
+                                            get(product_id=product.id).\
+                                            discount_rate.discount_rate)/100
                 else:
                     discount_rate = 0
                 
@@ -32,9 +33,9 @@ class ProductListView(View):
                     {
                         'id'              : product.id,
                         'name'            : product.name,
-                        'price'           : product.price,
+                        'price'           : float(product.price),
                         'discount_rate'   : discount_rate,
-                        'discount_price'  : int(product.price) * (1-discount_rate), 
+                        'discount_price'  : float(product.price) * (1-discount_rate), 
                         'on_discount'     : product.on_discount,
                         'product_option'  : product.product_option,
                         'thumbnail_image' : product.thumbnailimage.thumbnail_image_url,
