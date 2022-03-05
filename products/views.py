@@ -1,4 +1,3 @@
-from unicodedata import decimal
 from django.http      import JsonResponse
 from django.views     import View
 from django.db.models import Q
