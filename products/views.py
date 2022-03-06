@@ -7,10 +7,7 @@ class DetailView(View):
     def get(self, request):
         try:
             product = Product.objects.get(id=request.GET.get('product_id'))
-            
-            if product.stock == 0:
-                return JsonResponse({'message':'OUT_OF_STOCK'}, status=200)
-            
+
             if product.on_discount:
                 discount_rate = float(product.productsdiscountrate_set.
                                        get(product_id=product.id).\
@@ -35,20 +32,31 @@ class DetailView(View):
                         'review_images' : [review_image.review_image_url for review_image in review.reviewimage_set.filter(review_id=review.id)]
                     }
                 )
-            
-            result = {
-                'name'            : product.name,
-                'stock'           : product.stock,
-                'price'           : product.price,
-                'discount_rate'   : discount_rate if product.on_discount else None,
-                'service_detail'  : product.service_detail.content,
-                'thumbnail_image' : product.thumbnailimage.thumbnail_image_url,
-                'detail_images'   : [detail_image.detail_image_url for detail_image in product.detailimage_set.all()],
-                'product_options' : times if product.product_option else None,
-                'reviews'         : reviews_li if reviews_li else None,
-            }
+                
+            if product.stock == 0:
+                result = {
+                    'name'            : product.name,
+                    'price'           : None,
+                    'thumbnail_image' : product.thumbnailimage.thumbnail_image_url,
+                    'detail_images'   : [detail_image.detail_image_url for detail_image in product.detailimage_set.all()],
+                    'service_detail'  : product.service_detail.content,
+                    'reviews'         : reviews_li if reviews_li else None,                
+                }
+                return JsonResponse({'result':result, 'message':'OUT_OF_STOCK'}, status=200)      
+            else:    
+                result = {
+                    'name'            : product.name,
+                    'stock'           : product.stock,
+                    'price'           : product.price,
+                    'discount_rate'   : discount_rate if product.on_discount else None,
+                    'service_detail'  : product.service_detail.content,
+                    'thumbnail_image' : product.thumbnailimage.thumbnail_image_url,
+                    'detail_images'   : [detail_image.detail_image_url for detail_image in product.detailimage_set.all()],
+                    'product_options' : times if product.product_option else None,
+                    'reviews'         : reviews_li if reviews_li else None,
+                }
 
-            return JsonResponse({'result':result}, status=200)                
+            return JsonResponse({'result':result, 'message':'SUCCESS'}, status=200)      
         
         except KeyError:
             return JsonResponse({'message':'KEY_ERROR'}, status=400)
