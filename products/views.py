@@ -1,6 +1,6 @@
 from django.http      import JsonResponse
 from django.views     import View
-from django.db.models import Q
+from django.db.models import Q, Count
 
 from products.models  import Product
 
@@ -26,6 +26,8 @@ class ProductListView(View):
                 discount_rate = float(product.productsdiscountrate_set.\
                                       get(product_id=product.id).\
                                       discount_rate.discount_rate)/100
+                likes         = product.like_set.all().aggregate(Count('product_id'))\
+                                ['product_id__count']
     
                 results.append(
                     {
@@ -38,6 +40,7 @@ class ProductListView(View):
                         'product_option'  : product.product_option,
                         'thumbnail_image' : product.thumbnailimage.thumbnail_image_url,
                         'category'        : product.category.name,
+                        'likes'           : likes
                     }
                 )
                 
