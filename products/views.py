@@ -13,6 +13,7 @@ class DetailView(View):
                 'stock'           : product.stock,
                 'price'           : product.price if not product.stock == 0 else None,
                 'discount_rate'   : float(product.productsdiscountrate_set.get(product_id=product.id).discount_rate.discount_rate)/100 if product.on_discount else None,
+                'discount_price'  : 1-float(product.productsdiscountrate_set.get(product_id=product.id).discount_rate.discount_rate)/100 if product.on_discount else None, 
                 'service_detail'  : product.service_detail.content,
                 'thumbnail_image' : product.thumbnailimage.thumbnail_image_url,
                 'detail_images'   : [detail_image.detail_image_url for detail_image in product.detailimage_set.all()],
