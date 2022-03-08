@@ -95,10 +95,8 @@ class ProductListView(View):
 
 class ProductLikeView(View):
     @signin_decorator
-    def post(self, request):
-        
-        data         = json.loads(request.body)
-        product      = Product.objects.get(id=data['product_id'])
+    def post(self, request, product_id):
+        product      = Product.objects.get(id=product_id)
         user         = request.user
         obj, created = product.like_set.get_or_create(user_id=user.id)
         
