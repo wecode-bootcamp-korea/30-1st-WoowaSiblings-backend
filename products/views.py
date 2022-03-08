@@ -96,12 +96,16 @@ class ProductListView(View):
 class ProductLikeView(View):
     @signin_decorator
     def post(self, request, product_id):
-        product      = Product.objects.get(id=product_id)
-        user         = request.user
-        obj, created = product.like_set.get_or_create(user_id=user.id)
+        try:
+            product       = Product.objects.get(id=product_id)
+            user          = request.user
+            like, created = product.like_set.get_or_create(user_id=user.id)
         
-        if not created:
-            obj.delete()
-            return JsonResponse({'message':'UNLIKED'}, status=204)
+            if not created:
+                like.delete()
+                return JsonResponse({'message':'UNLIKED'}, status=204)
                
-        return JsonResponse({'message':'LIKED'}, status=201)
+            return JsonResponse({'message':'LIKED'}, status=201)
+        
+        except KeyError:
+            return JsonResponse({'message':'KEY_ERROR'}, status=400)
