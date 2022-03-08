@@ -24,7 +24,7 @@ class OrderItemStatusCode(models.Model):
 
 class OrderItem(TimeStamp):
     quantity               = models.PositiveIntegerField()
-    product_time           = models.ForeignKey('products.Time', on_delete=models.CASCADE)
+    product_time           = models.ForeignKey('products.ProductTime', on_delete=models.CASCADE)
     order                  = models.ForeignKey('Order', on_delete=models.CASCADE)
     order_item_status_code = models.ForeignKey('OrderItemStatusCode', on_delete=models.CASCADE)
     
@@ -33,7 +33,7 @@ class OrderItem(TimeStamp):
         
 class Cart(TimeStamp):
     user         = models.ForeignKey('users.User', on_delete=models.CASCADE)
-    product_time = models.ForeignKey('products.Time', on_delete=models.CASCADE)
+    product_time = models.ForeignKey('products.ProductTime', on_delete=models.CASCADE)
     quantity     = models.PositiveIntegerField()    
 
     class Meta:
