@@ -109,3 +109,6 @@ class ProductLikeView(View):
         
         except KeyError:
             return JsonResponse({'message':'KEY_ERROR'}, status=400)
+        
+        except Product.DoesNotExist:
+            return JsonResponse({'message':'PRODUCT_NOT_EXIST'}, status=400)
