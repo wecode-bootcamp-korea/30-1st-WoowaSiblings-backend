@@ -21,13 +21,14 @@ class CartView(View):
             
             cart = Cart.objects.get_or_create(
                 user         = user,
-                quantity     = quantity,
-                product_time = product_time
+                product_time = product_time,
+                defaults     = {'quantity' : quantity},
             )
             
             if not cart[1]:
                 cart[0].quantity += quantity
                 cart[0].save()
+                
                 return JsonResponse({'message' : 'ADD_QUANTITY_TO_EXISTED_CART'}, status=204)
             
             return JsonResponse({'message' : 'CREATE_CART'}, status=201)
@@ -42,30 +43,29 @@ class CartView(View):
             return JsonResponse({'message' : 'INVALID_PRODUCT_OPTION'}, status=400)
         
     @signin_decorator
-    def get(self, request, product_id):
+    def get(self, request):
         try:
             user    = request.user
-            product = Product.objects.get(id=product_id)
             carts   = Cart.objects.filter(user=user)
         
             results = [
                 {
                     'id'              : cart.id,
-                    'name'            : product.name,
-                    'price'           : float(product.price)*\
-                                        (1-float(product.productsdiscountrate_set.\
-                                                get(product_id=product.id).discount_rate.\
-                                                discount_rate)/100) if product.on_discount\
-                                                else float(product.price),
-                    'time'            : cart.product_time.name,
+                    'name'            : cart.product_time.product.name,
+                    'price'           : float(cart.product_time.product.price)*\
+                                        (1-float(cart.product_time.product.productsdiscountrate_set.\
+                                                get(product_id=cart.product_time.product.id).discount_rate.\
+                                                discount_rate)/100) if cart.product_time.product.on_discount\
+                                                else float(cart.product_time.product.price),
+                    'time'            : cart.product_time.time.name,
                     'quantity'        : cart.quantity,
                     'total_price'     : float(cart.quantity)*\
-                                        float(product.price)*\
-                                        (1-float(product.productsdiscountrate_set.\
-                                                get(product_id=product.id).discount_rate.\
-                                                discount_rate)/100) if product.on_discount\
-                                                else float(cart.quantity) * float(product.price),
-                    'thumbnail_image' : product.thumbnailimage.thumbnail_image_url
+                                        float(cart.product_time.product.price)*\
+                                        (1-float(cart.product_time.product.productsdiscountrate_set.\
+                                                get(product_id=cart.product_time.product.id).discount_rate.\
+                                                discount_rate)/100) if cart.product_time.product.on_discount\
+                                                else float(cart.quantity) * float(cart.product_time.product.price),
+                    'thumbnail_image' : cart.product_time.product.thumbnailimage.thumbnail_image_url
                 }
             for cart in carts]
         
@@ -85,9 +85,10 @@ class CartView(View):
             product_time = ProductTime.objects.get(product_id=product_id)
             cart         = Cart.objects.filter(user=user, product_time=product_time)
             
-            cart.update(
-                quantity = quantity
-            )
+            if cart:
+                cart.update(
+                    quantity = quantity
+                )
             
             return JsonResponse({'message' : 'UPDATE_CART'}, status=200)
         
