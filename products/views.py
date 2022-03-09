@@ -10,9 +10,10 @@ class ProductDetailView(View):
             product = Product.objects.get(id=product_id)
 
             result = {
+                'id'              : product.id,
                 'name'            : product.name,
                 'stock'           : product.stock,
-                'price'           : product.price if not product.stock == 0 else '',
+                'price'           : float(product.price) if not product.stock == 0 else '',
                 'discount_rate'   : float(product.productsdiscountrate_set.\
                                     get(product_id=product.id).discount_rate.discount_rate)/100\
                                     if product.on_discount else '',
