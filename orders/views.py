@@ -85,18 +85,18 @@ class CartView(View):
             product_time = ProductTime.objects.get(product_id=product_id)
             cart         = Cart.objects.filter(user=user, product_time=product_time)
             
-            if Cart.objects.filter(product_time=product_time).exists():
-                cart.update(
-                    quantity = quantity
-                )
+            if not cart.exists():
+                return JsonResponse({'message' : 'CART_NOT_EXIST'}, status=400)
+                
+            cart.update(quantity = quantity)
             
             return JsonResponse({'message' : 'UPDATE_CART'}, status=200)
         
         except json.JSONDecodeError:
             return JsonResponse({'message' : 'JSON_DECODE_ERROR'}, status=400)
         
-        except Cart.DoesNotExist:
-            return JsonResponse({'message' : 'CART_NOT_EXIST'}, status=400)
+        except ProductTime.DoesNotExist:
+            return JsonResponse({'message' : 'PRODUCT_TIME_NOT_EXIST'}, status=400)
         
     @signin_decorator
     def delete(self, request):
