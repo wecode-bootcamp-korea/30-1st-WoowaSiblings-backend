@@ -19,17 +19,17 @@ class CartView(View):
             product_id      = data['product_id']
             product_time    = ProductTime.objects.get(product_id=product_id)
             
-            cart = Cart.objects.get_or_create(
+            cart, created = Cart.objects.get_or_create(
                 user         = user,
                 product_time = product_time,
                 defaults     = {'quantity' : quantity},
             )
             
-            if not cart[1]:
-                cart[0].quantity += quantity
-                cart[0].save()
+            if not created:
+                cart.quantity += quantity
+                cart.save()
                 
-                return JsonResponse({'message' : 'ADD_QUANTITY_TO_EXISTED_CART'}, status=204)
+                return JsonResponse({'message' : 'ADD_QUANTITY_TO_EXISTED_CART'}, status=200)
             
             return JsonResponse({'message' : 'CREATE_CART'}, status=201)
                 
@@ -85,7 +85,7 @@ class CartView(View):
             product_time = ProductTime.objects.get(product_id=product_id)
             cart         = Cart.objects.filter(user=user, product_time=product_time)
             
-            if cart:
+            if Cart.objects.filter(product_time=product_time).exists():
                 cart.update(
                     quantity = quantity
                 )
