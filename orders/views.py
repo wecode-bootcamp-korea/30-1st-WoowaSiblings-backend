@@ -52,19 +52,19 @@ class CartView(View):
                 {
                     'id'              : cart.id,
                     'name'            : cart.product_time.product.name,
-                    'price'           : float(cart.product_time.product.price)*\
-                                        (1-float(cart.product_time.product.productsdiscountrate_set.\
+                    'price'           : cart.product_time.product.price *\
+                                        (1-(cart.product_time.product.productsdiscountrate_set.\
                                                 get(product_id=cart.product_time.product.id).discount_rate.\
                                                 discount_rate)/100) if cart.product_time.product.on_discount\
-                                                else float(cart.product_time.product.price),
+                                                else cart.product_time.product.price,
                     'time'            : cart.product_time.time.name,
                     'quantity'        : cart.quantity,
-                    'total_price'     : float(cart.quantity)*\
-                                        float(cart.product_time.product.price)*\
-                                        (1-float(cart.product_time.product.productsdiscountrate_set.\
+                    'total_price'     : cart.quantity *\
+                                        cart.product_time.product.price *\
+                                        (1-(cart.product_time.product.productsdiscountrate_set.\
                                                 get(product_id=cart.product_time.product.id).discount_rate.\
                                                 discount_rate)/100) if cart.product_time.product.on_discount\
-                                                else float(cart.quantity) * float(cart.product_time.product.price),
+                                                else cart.quantity * cart.product_time.product.price,
                     'thumbnail_image' : cart.product_time.product.thumbnailimage.thumbnail_image_url
                 }
             for cart in carts]
