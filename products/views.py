@@ -1,5 +1,3 @@
-import json
-
 from django.http      import JsonResponse
 from django.views     import View
 from django.db.models import Q, Count
@@ -16,18 +14,18 @@ class ProductDetailView(View):
                 'id'              : product.id,
                 'name'            : product.name,
                 'stock'           : product.stock,
-                'price'           : float(product.price) if not product.stock == 0 else '',
-                'discount_rate'   : float(product.productsdiscountrate_set.\
-                                    get(product_id=product.id).discount_rate.discount_rate)/100\
-                                    if product.on_discount else '',
-                'discount_price'  : (1-float(product.productsdiscountrate_set.\
-                                    get(product_id=product.id).discount_rate.discount_rate)/100)*float(product.price)\
-                                    if product.on_discount else '', 
+                'price'           : product.price,
+                'discount_rate'   : product.productsdiscountrate_set.\
+                                            get(product_id=product.id).discount_rate.discount_rate/100\
+                                            if product.on_discount else None,
+                'discount_price'  : (1-(product.productsdiscountrate_set.\
+                                        get(product_id=product.id).discount_rate.discount_rate)/100) * product.price\
+                                        if product.on_discount else None, 
                 'service_detail'  : product.service_detail.content,
                 'thumbnail_image' : product.thumbnailimage.thumbnail_image_url,
                 'detail_images'   : [detail_image.detail_image_url for detail_image in product.detailimage_set.all()],
                 'product_options' : [product_option.time.name for product_option in product.producttime_set.all()]\
-                                    if product.product_option else '',
+                                    if product.product_option else None,
                 'reviews'         : [
                     {
                         'title'         : review.title,
@@ -72,15 +70,15 @@ class ProductListView(View):
                 {
                     'id'              : product.id,
                     'name'            : product.name,
-                    'price'           : float(product.price),
-                    'discount_rate'   : float(product.productsdiscountrate_set.\
-                                             get(product_id=product.id).\
-                                             discount_rate.discount_rate)/100\
-                                             if product.on_discount else '',
-                    'discount_price'  : (1-float(product.productsdiscountrate_set.\
-                                             get(product_id=product.id).discount_rate.\
-                                             discount_rate)/100) * float(product.price)\
-                                             if product.on_discount else '',
+                    'price'           : product.price,
+                    'discount_rate'   : product.productsdiscountrate_set.\
+                                                get(product_id=product.id).\
+                                                discount_rate.discount_rate/100\
+                                                if product.on_discount else None,
+                    'discount_price'  : (1-(product.productsdiscountrate_set.\
+                                            get(product_id=product.id).discount_rate.\
+                                            discount_rate)/100) * product.price\
+                                            if product.on_discount else None,
                     'on_discount'     : product.on_discount,
                     'product_options' : product.product_option,
                     'thumbnail_image' : product.thumbnailimage.thumbnail_image_url,
