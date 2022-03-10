@@ -1,6 +1,6 @@
 import jwt
 
-from django.http import JsonResponse
+from django.http         import JsonResponse
 
 from moonbanggu.settings import SECRET_KEY, ALGORITHM
 from users.models        import User
