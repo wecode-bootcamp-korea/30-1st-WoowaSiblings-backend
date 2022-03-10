@@ -14,7 +14,7 @@ class ProductDetailView(View):
                 'id'              : product.id,
                 'name'            : product.name,
                 'stock'           : product.stock,
-                'price'           : product.price if not product.stock == 0 else '',
+                'price'           : product.price,
                 'discount_rate'   : product.productsdiscountrate_set.\
                                             get(product_id=product.id).discount_rate.discount_rate/100\
                                             if product.on_discount else None,
@@ -25,7 +25,7 @@ class ProductDetailView(View):
                 'thumbnail_image' : product.thumbnailimage.thumbnail_image_url,
                 'detail_images'   : [detail_image.detail_image_url for detail_image in product.detailimage_set.all()],
                 'product_options' : [product_option.time.name for product_option in product.producttime_set.all()]\
-                                    if product.product_option else '',
+                                    if product.product_option else None,
                 'reviews'         : [
                     {
                         'title'         : review.title,
