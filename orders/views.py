@@ -29,7 +29,7 @@ class CartView(View):
                 cart.quantity += quantity
                 cart.save()
                 
-                return JsonResponse({'message' : 'ADD_QUANTITY_TO_EXISTED_CART'}, status=200)
+                return JsonResponse({'message' : 'ADD_QUANTITY_TO_EXISTED_CART'}, status=201)
             
             return JsonResponse({'message' : 'CREATE_CART'}, status=201)
                 
@@ -114,5 +114,3 @@ class CartView(View):
 
         except Cart.DoesNotExist:
             return JsonResponse({'message' : 'CART_NOT_EXIST'}, status=400)
-    
-    
