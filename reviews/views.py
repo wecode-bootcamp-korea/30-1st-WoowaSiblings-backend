@@ -1,7 +1,7 @@
 import json
 import datetime
 
-from django.http import JsonResponse
+from django.http  import JsonResponse
 from django.views import View
 
 from products.models  import ProductTime
@@ -61,9 +61,5 @@ class ReviewView(View):
             
             return JsonResponse({'message':'SUCCESS'}, status=201)
         
-        except:
-            pass
-        
-        
-        
-        
+        except KeyError:
+            return JsonResponse({'message':'KEY_ERROR'}, status=400)

@@ -1,8 +1,11 @@
+import json
+
 from django.http      import JsonResponse
 from django.views     import View
 from django.db.models import Q, Count
 
 from products.models  import Product
+from utils.decorators import signin_decorator
 
 class ProductDetailView(View):
     def get(self, request, product_id):
@@ -10,9 +13,10 @@ class ProductDetailView(View):
             product = Product.objects.get(id=product_id)
 
             result = {
+                'id'              : product.id,
                 'name'            : product.name,
                 'stock'           : product.stock,
-                'price'           : product.price if not product.stock == 0 else '',
+                'price'           : float(product.price) if not product.stock == 0 else '',
                 'discount_rate'   : float(product.productsdiscountrate_set.\
                                     get(product_id=product.id).discount_rate.discount_rate)/100\
                                     if product.on_discount else '',
@@ -90,3 +94,22 @@ class ProductListView(View):
         except Product.DoesNotExist:
             return JsonResponse({'message' : 'PRODUCT_NOT_EXIST'}, status=400)
 
+class ProductLikeView(View):
+    @signin_decorator
+    def post(self, request, product_id):
+        try:
+            product       = Product.objects.get(id=product_id)
+            user          = request.user
+            like, created = product.like_set.get_or_create(user_id=user.id)
+        
+            if not created:
+                like.delete()
+                return JsonResponse({'message':'UNLIKED'}, status=204)
+               
+            return JsonResponse({'message':'LIKED'}, status=201)
+        
+        except KeyError:
+            return JsonResponse({'message':'KEY_ERROR'}, status=400)
+        
+        except Product.DoesNotExist:
+            return JsonResponse({'message':'PRODUCT_NOT_EXIST'}, status=400)
