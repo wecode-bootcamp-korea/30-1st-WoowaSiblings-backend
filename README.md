@@ -69,11 +69,8 @@
 [삼십문방구 발표자료](https://github.com/wecode-bootcamp-korea/30-1st-WoowaSiblings-backend/files/8239154/30.1.PPT.pdf)
 
 ### 시연자료
-* 회원가입
 <img src="https://user-images.githubusercontent.com/78680486/158051431-0dbee476-6aca-4214-858a-149133d6f340.gif">
-* 상품 카테고리
 <img src="https://user-images.githubusercontent.com/78680486/158051506-b50342b5-74b3-4176-a6c9-49724aabe21c.gif">
-* 상품 상세, 장바구니
 <img src="https://user-images.githubusercontent.com/78680486/158051521-6f78ff8b-ef94-4ba9-aa4e-27d25a26f0a6.gif">
 <br>
 
