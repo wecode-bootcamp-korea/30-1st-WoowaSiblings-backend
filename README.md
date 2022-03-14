@@ -53,15 +53,15 @@
 * Review
 
 ### 활용 라이브러리
-* django-cors
+* django-cors-headers
 * bcrypt
 * jwt
 
 <br>
 
 ## 구현파트
-* 김동규 : 메인(List), 카테고리, 장바구니(CRUD), filtering/ordering/pagination
-* 김은지 : 회원가입/로그인, 상세(Detail), 리뷰(get), login decorator
+* 김동규 : 전체(Product List), 카테고리(Category List), 장바구니(CRUD), Filtering/Ordering/Pagination 기능 구현
+* 김은지 : SignUp/SignIn, SignIn Decorator, 상세(Product Detail), 리뷰(GET) 기능 구현
 
 <br>
 
