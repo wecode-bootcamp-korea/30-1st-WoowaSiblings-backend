@@ -44,13 +44,13 @@
 ### 필수구현사항
 * SignUp/SignIn
 * SignIn Decorator
-* ProductList
-* 상품상세
-* 장바구니
+* Product List
+* Product Detail
+* Cart
   
 ### 추가구현사항(추가 예정)
-* 리뷰
-* 주문
+* Order
+* Review
 
 ### 활용 라이브러리
 * django-cors
