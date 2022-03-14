@@ -11,11 +11,11 @@
 
 ## 프로젝트 참여인원
 * [Frontend](https://github.com/wecode-bootcamp-korea/30-1st-WoowaSiblings-frontend)
-  * 정수인
-  * 한영현
+  * 정수인:whale::whale:
+  * 한영현:hatching_chick::hatching_chick:
 * Backend
   * 김동규:sunglasses::sunglasses:
-  * 김은지
+  * 김은지:seedling::seedling:
   
 <br>
 
