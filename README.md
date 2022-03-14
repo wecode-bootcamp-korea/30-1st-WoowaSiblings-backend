@@ -1,5 +1,5 @@
 # 30-1st-WoowaSiblings-backend
-<img src="https://user-images.githubusercontent.com/78680486/158049031-df291eff-c90c-41b1-8dde-0f5cfdf2650d.jpg"  width= 100 height=100>
+<img src="https://user-images.githubusercontent.com/78680486/158087608-ef822b1f-f201-4e2c-8639-8411f3486328.png">
 
 <br>
 
