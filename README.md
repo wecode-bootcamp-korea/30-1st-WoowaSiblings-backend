@@ -42,8 +42,9 @@
 
 ## 구현목표
 ### 필수구현사항
-* 회원가입/로그인, 로그인 데코레이터
-* 상품리스트
+* SignUp/SignIn
+* SignIn Decorator
+* ProductList
 * 상품상세
 * 장바구니
   
