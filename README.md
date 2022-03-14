@@ -14,7 +14,7 @@
   * 정수인
   * 한영현
 * Backend
-  * 김동규
+  * 김동규:sunglasses::sunglasses:
   * 김은지
   
 <br>
